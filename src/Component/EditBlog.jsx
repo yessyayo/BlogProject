@@ -1,25 +1,140 @@
-import {useState, useEffect} from 'react'
-import { doc, updateDoc, deleteField } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import db from '../utils/fireStoreData'
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function EditBlog() {
-    
+const EditBlog = () => {
+  const [author, setAuthor] = useState('');
+  const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
 
-const cityRef = doc(db, 'cities', 'BJ');
+  const navigate = useNavigate();
+  const blogId = useParams()
 
-// Remove the 'capital' field from the document
-await updateDoc(cityRef, {
-    capital: deleteField()
-});
+  const editImage = (e) => {
+    setImage(e.target.value);
+  };
+
+  const bindAuthor = (e) => {
+    setAuthor(e.target.value);
+  };
+
+  const bindContent = (e) => {
+    setContent(e.target.value);
+  };
+
+  const bindTitleValue = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const submitData = async (e) => {
+    const washingtonRef = doc(db, "Blog_DB", "blogId.id");
+
+    try{
+      const res = await updateDoc(washingtonRef, {
+        img: Image,
+        title: Title,
+        content: Content,
+        author: Author
+      });
+    } catch (err){
+      console.log(`Error occured on update: ${err}`);
+    }
+
+    navigate(`/single-blog/${blogId.id}`)
+
+    // Set the "capital" field of the city 'DC'
+   
+    // e.preventDefault(); 
+    // const payload = {
+    //   title: title,
+    //   author: author,
+    //   content: content,
+    //   img: image,
+    // };
+
+    // try {
+    //   const docRef = await addDoc(collection(db, "Blog_DB"), payload); 
+    //   console.log("Document written with ID: ", docRef.id);
+    //   // navigate(`/single-blog/${docRef.id}`); 
+    // } catch (err) {
+    //   console.log(`Error occurred: ${err}`);
+    // }
+  };
+
+
+  const getSingleBlog = async () =>{
+    const allBlogs = doc(db, "Blog_DB", blogId.id);
+
+    try {
+      const aBlog = await getDoc(allBlogs);
+      if (aBlog.exists()) {
+        setBlog(aBlog.data()); 
+      } else {
+        console.log("No such document!");
+      }
+    } catch (err) {
+      console.error("Error fetching document:", err);
+    } 
+
+    }
+
+useEffect(() =>{
+  getSingleBlog()  
+},[])
+
+ 
   return (
-    
-    <div className='flex flex-col gap-7 text-white p-40'>
-      <h1 className='text-4xl uppercase'>{blog.title}</h1>
-      <h1 className='text-xl'>{blog.content}</h1>
-      <hr />
-      <h3 className='text-lg'>{blog.author}</h3>
-      <p className='text-green-600 capitalize'>{blog.status || "open now"}</p>
-    </div>
-  )
+    <div className='w-[100] text-black h-[80vh] flex flex-col items-center justify-center'>
+      <h1 className='mb-4 text-2xl text-white'>Edit Blog</h1>
+      <form onSubmit={submitData} className=''>
+        <input
+          className='w-96 p-2'
+          type="text"
+          placeholder='Author'
+          value={author}
+          onChange={(e) => bindAuthor(e)}
+        />
+        <br />
+        <br />
 
-  BlogProject
-}
+        <input
+          className='w-96 p-2'
+          type="text"
+          placeholder='Title'
+          value={title}
+          onChange={(e) => bindTitleValue(e)}
+        />
+        <br />
+        <br />
+
+        <input
+          className='w-96 p-2'
+          type="text"
+          placeholder='Image'
+          value={image}
+          onChange={(e) => editImage(e)}
+        />
+        <br />
+        <br />
+
+        <textarea
+          className='w-96 p-2'
+          name="content"
+          placeholder='Content'
+          value={content}
+          onChange={(e) => bindContent(e)}
+        ></textarea>
+        <br />
+        <br />
+
+        <button type="submit" className='w-96 bg-blue-600 text-black' onClick={submitData}>
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default EditBlog;

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
 import db from '../utils/fireStoreData'
-import {addDocument} from '../utils/addData'
 import { useNavigate } from 'react-router-dom';
 
 const NewBlog = () => {
@@ -38,17 +37,15 @@ const NewBlog = () => {
     };
 
     try {
-      const docRef = await addDoc(collection(db, "blogs"), payload); 
+      const docRef = await addDoc(collection(db, "Blog_DB"), payload); 
       console.log("Document written with ID: ", docRef.id);
-      navigate(`/home/${docRef.id}`); 
+      // navigate(`/single-blog/${docRef.id}`); 
     } catch (err) {
       console.log(`Error occurred: ${err}`);
     }
   };
 
-  useEffect(() => {
-  }, []);
-
+ 
   return (
     <div className='w-[100] text-black h-[80vh] flex flex-col items-center justify-center'>
       <h1 className='mb-4 text-2xl text-white'>Add New Blog</h1>

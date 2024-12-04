@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from '../../Component/pages/Home'
 import NewBlog from '../../Component/NewBlog'
 import SingleBlog from '../../Component/SingleBlog'
+import EditBlog from '../../Component/EditBlog'
 
 
 export default function Router() {
@@ -12,7 +13,8 @@ export default function Router() {
          <Routes>
             <Route path="/" element = {<Home/>} />
             <Route path="/add-new-blog" element = {<NewBlog/>} />
-            <Route path="/single-blog" element = {<SingleBlog/>} />
+            <Route path="/edit-blog/:id" element = {<EditBlog/>} />
+            <Route path="/single-blog/:id" element = {<SingleBlog/>} />
          </Routes>
       </BrowserRouter>
     </div>
