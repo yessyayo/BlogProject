@@ -8,6 +8,14 @@ const EditBlog = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
+  const [blog, setBlog] = useState(
+    {
+      title :'',
+      author:'',
+      content:'',
+      img:'',
+    }
+  );
 
   const navigate = useNavigate();
   const blogId = useParams()
@@ -29,17 +37,19 @@ const EditBlog = () => {
   };
 
   const submitData = async (e) => {
-    const washingtonRef = doc(db, "Blog_DB", "blogId.id");
+    e.preventDefault()
+    const BLOG = doc(db, "Blog_DB", blogId.id);
+    console.log(blogId.id, "the id");
+    
 
     try{
-      const res = await updateDoc(washingtonRef, {
-        img: Image,
-        title: Title,
-        content: Content,
-        author: Author
+      const res = await updateDoc(BLOG, {
+        img: image,
+        title: title,
+        content: content,
+        author: author
       });
     } catch (err){
-      console.log(`Error occured on update: ${err}`);
     }
 
     navigate(`/single-blog/${blogId.id}`)
@@ -65,17 +75,21 @@ const EditBlog = () => {
 
 
   const getSingleBlog = async () =>{
-    const allBlogs = doc(db, "Blog_DB", blogId.id);
+    const BLOG = doc(db, "Blog_DB", blogId.id);
 
     try {
-      const aBlog = await getDoc(allBlogs);
+      const aBlog = await getDoc(BLOG);
       if (aBlog.exists()) {
-        setBlog(aBlog.data()); 
+        setAuthor(aBlog.data().author); 
+        setContent(aBlog.data().content); 
+        setTitle(aBlog.data().title); 
+        setImage(aBlog.data().img); 
+        
       } else {
-        console.log("No such document!");
+        
       }
     } catch (err) {
-      console.error("Error fetching document:", err);
+      
     } 
 
     }
