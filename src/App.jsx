@@ -3,6 +3,9 @@ import Header from './Component/Header'
 import Section from './Component/Section'
 import Router from './utils/route/Router'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,6 +16,10 @@ function App() {
       {/* <Header/>
       <Section/> */}
        <Router/>
+
+       <ToastContainer
+       
+       />
     </div>
       
    

@@ -1,0 +1,30 @@
+[
+    {
+        "username": "Person",
+        "password": "12345678",
+        "firstname": "Bola",
+        "lastname": "Tito",
+        "location": "Ibadan"
+    },
+    {
+        "username": "Ishola",
+        "password": "Ishola@1234",
+        "firstname": "Ishow",
+        "lastname": "Isszy",
+        "location": "Ibadan"
+    },
+    {
+        "username": "kemzy",
+        "password": "kem@kem2024",
+        "firstname": "Fola",
+        "lastname": "Kemi",
+        "location": "Lagos"
+    },
+    {
+        "username": "Audu",
+        "password": "Aud568@cars",
+        "firstname": "Abudullai",
+        "lastname": "Usman",
+        "location": "Kastina"
+    }
+]
